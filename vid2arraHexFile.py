@@ -36,6 +36,8 @@ useDitering = True
 
 print("Выберите видео: ")
 vidname=askopenfilename()
+print("Выберите выходную папку: ")
+dirname=askdirectorys()
 #print("Введите количество кадров в видео или 1 для картинки: ")
 #frames=int(input())
 
@@ -46,7 +48,7 @@ length = length - length % 10
 print(length)
 
 for n in range(0, length, 10):
-    file=open(str(n//10)+".ktube",  "w+b")
+    file=open(dirname+"/"+str(n//10)+".ktube",  "w+b")
     for i in range(10):
       print("Processing: "+ str(n+i))
       cap.set(cv2.CAP_PROP_POS_FRAMES, n+i)
