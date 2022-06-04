@@ -37,11 +37,12 @@ useDitering = True
 print("Выберите видео: ")
 vidname=askopenfilename()
 print("Выберите выходную папку: ")
-dirname=askdirectorys()
+dirname=askdirectory()
 #print("Введите количество кадров в видео или 1 для картинки: ")
 #frames=int(input())
 
 cap = cv2.VideoCapture(vidname)
+
 length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 length = length - length % 10
 
@@ -53,6 +54,7 @@ for n in range(0, length, 10):
       print("Processing: "+ str(n+i))
       cap.set(cv2.CAP_PROP_POS_FRAMES, n+i)
       ret, image = cap.read()
+      image = cv2.resize(image, (128, 64))
       gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
       threshold_image = dithering_gray(gray_image.copy(), 1)
       #ret, threshold_image = cv2.threshold(gray_image, 127, 255, 0)
