@@ -6,5 +6,5 @@ Simple video hosting for Korobochka
 3. Convert video to some ktube files using python prigram
 4. Add folder with all ktubes to the repo
 5. Edit index.html:
-  a. Increase first number in file by one
-  b. Add strings to the end of the file: folder name, number of ktube files
+  A. Increase first number in file by one
+  B. Add strings to the end of the file: video name, folder name, number of ktube files
