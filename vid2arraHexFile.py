@@ -1,5 +1,4 @@
 import cv2
-import os
 
 import numpy as np
 
@@ -8,7 +7,7 @@ from tkinter.filedialog import askdirectory, askopenfilename
 
 Tk().withdraw()
 
-framesInFile = 10
+framesInFile = 10                         # Кол-во кадров в 1 файле ktube
 
 def minmax(v):                            # Часть алгоритма дизеринга
     if v > 255:
@@ -64,6 +63,3 @@ for n in range(0, length, framesInFile):
               out.append(int(a, 2))
       file.write(bytearray(out))
     file.close()
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
