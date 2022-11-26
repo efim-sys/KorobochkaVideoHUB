@@ -9,14 +9,14 @@ from tkinter.filedialog import askdirectory, askopenfilename
 Tk().withdraw()
 
 
-def minmax(v):
+def minmax(v):                            # Часть алгоритма дизеринга
     if v > 255:
         v = 255
     if v < 0:
         v = 0
     return v
 
-def dithering_gray(inMat, samplingF):
+def dithering_gray(inMat, samplingF):     # Алгоритм дизеригна из Википедии
     h = inMat.shape[0]
     w = inMat.shape[1]
     for y in range(0, h-1):
@@ -31,15 +31,10 @@ def dithering_gray(inMat, samplingF):
             inMat[y+1, x+1] = minmax(inMat[y+1, x+1] + quant_error_p * 1 / 16.0)
     return inMat
 
-
-useDitering = True
-
 print("Выберите видео: ")
 vidname=askopenfilename()
 print("Выберите выходную папку: ")
 dirname=askdirectory()
-#print("Введите количество кадров в видео или 1 для картинки: ")
-#frames=int(input())
 
 cap = cv2.VideoCapture(vidname)
 
@@ -56,16 +51,15 @@ for n in range(0, length, 10):
       ret, image = cap.read()
       image = cv2.resize(image, (128, 64))
       gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-      threshold_image = dithering_gray(gray_image.copy(), 1)
-      #ret, threshold_image = cv2.threshold(gray_image, 127, 255, 0)
-      width=threshold_image.shape[1]
-      height=threshold_image.shape[0]
+      dithering_image = dithering_gray(gray_image.copy(), 1)
+      width=dithering_image.shape[1]
+      height=dithering_image.shape[0]
       out = []
       for x in range(height):
           for y in range(0, width, 8):
               a = ""
               for r in range(8):
-                  a += str(threshold_image[x][y+r] // 255)
+                  a += str(dithering_image[x][y+r] // 255)
               out.append(int(a, 2))
       file.write(bytearray(out))
     file.close()
