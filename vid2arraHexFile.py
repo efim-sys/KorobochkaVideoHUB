@@ -8,6 +8,7 @@ from tkinter.filedialog import askdirectory, askopenfilename
 
 Tk().withdraw()
 
+framesInFile = 10
 
 def minmax(v):                            # Часть алгоритма дизеринга
     if v > 255:
@@ -39,19 +40,19 @@ dirname=askdirectory()
 cap = cv2.VideoCapture(vidname)
 
 length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-length = length - length % 10
+length = length - length % framesInFile
 
 print(length)
 
-for n in range(0, length, 10):
-    file=open(dirname+"/"+str(n//10)+".ktube",  "w+b")
-    for i in range(10):
+for n in range(0, length, framesInFile):
+    file=open(dirname+"/"+str(n//framesInFile)+".ktube",  "w+b")     # Создаем файл с возможность записи в битах
+    for i in range(framesInFile):
       print("Processing: "+ str(n+i))
-      cap.set(cv2.CAP_PROP_POS_FRAMES, n+i)
+      cap.set(cv2.CAP_PROP_POS_FRAMES, n+i)                # Находим в видео нужный кадр
       ret, image = cap.read()
-      image = cv2.resize(image, (128, 64))
-      gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-      dithering_image = dithering_gray(gray_image.copy(), 1)
+      image = cv2.resize(image, (128, 64))                 # Масштабируем кадр
+      gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # Преобразовываем в оттенки серого
+      dithering_image = dithering_gray(gray_image.copy(), 1)  # Применяем дизеринг
       width=dithering_image.shape[1]
       height=dithering_image.shape[0]
       out = []
