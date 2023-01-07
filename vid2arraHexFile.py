@@ -1,5 +1,7 @@
 import cv2
 
+import time
+
 import numpy as np
 
 from tkinter import Tk
@@ -43,10 +45,12 @@ length = length - length % framesInFile
 
 print(length)
 
+startTime = time.time()
+
 for n in range(0, length, framesInFile):
     file=open(dirname+"/"+str(n//framesInFile)+".ktube",  "w+b")     # Создаем файл с возможность записи в битах
     for i in range(framesInFile):
-      print("Processing: "+ str(n+i))
+      print("Processing: "+ str(n+i), str('{0:.1f}'.format((n+i) / length * 100)) + "%")
       cap.set(cv2.CAP_PROP_POS_FRAMES, n+i)                # Находим в видео нужный кадр
       ret, image = cap.read()
       image = cv2.resize(image, (128, 64))                 # Масштабируем кадр
@@ -63,3 +67,9 @@ for n in range(0, length, framesInFile):
               out.append(int(a, 2))
       file.write(bytearray(out))
     file.close()
+
+elapsedTime = time.time() - startTime
+
+print("Done!")
+print("total time:", elapsedTime, "seconds")
+print("avg fps:", length / elapsedTime)
